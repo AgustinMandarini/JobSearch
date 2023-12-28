@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==2.2.6"
+djangorestframework = "==3.10.3"
+selenium = "*"
+webdriver-manager = "*"
+django-cors-headers = "==3.1.1"
+django-celery-beat = "*"
+celery = "*"
+django-celery-results = "*"
+redis = "*"
+django-redis = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

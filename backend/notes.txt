@@ -1,0 +1,5 @@
+To initialize celery schedules, first navigate to ~/Escritorio/Proyects/Django/jobSearchApp/backend.
+Then, exdcute the following:
+
+celery -A job_search.celery worker -l info
+celery -A job_search beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
