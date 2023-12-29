@@ -60,43 +60,51 @@ def find_jobs(job, location):
 
         sleep(randint(2, 4))
 
+        # Intenta cerrar el popup de notificaciones de indeed
+        try:
+            popup = driver.find_element(By.CLASS_NAME, "css-yi9ndv")
+            popup.click()
+        except:
+            print("No popup found!")
+
         job_page = driver.find_element(By.ID, "mosaic-jobResults")
         jobs = job_page.find_elements(
             By.CLASS_NAME, "job_seen_beacon")  # return a list
 
         for jj in jobs:
+
             job_title = jj.find_element(By.CLASS_NAME, "jobTitle")
 
+            # Click the job element to get the description
+            job_title.click()
+
+            # Help to load page so we can find and extract data
+            sleep(randint(2, 3))
+
             try:
+                description = driver.find_element(
+                    By.ID, "jobDescriptionText").get_attribute("innerText")
                 date = jj.find_element(
                     By.CLASS_NAME, "myJobsState").get_attribute("innerText")
             except:
-                date = jj.find_element(
-                    By.CLASS_NAME, "date").get_attribute("innerText")
+                try:
+                    description = driver.find_element(
+                        By.CLASS_NAME, "jobsearch-jobDescriptionText").get_attribute("innerText")
+                    date = jj.find_element(
+                        By.CLASS_NAME, "date").get_attribute("innerText")
+                except:
+                    description = "No description"
+                    date = "Unknown"
+
             job_lst.append({
                 "title": job_title.get_attribute("innerText"),
                 "job_url": job_title.find_element(By.CSS_SELECTOR, "a").get_attribute("href"),
                 "job_id": job_title.find_element(By.CSS_SELECTOR, "a").get_attribute("id"),
                 "company": jj.find_element(By.CLASS_NAME, "css-1x7z1ps.eu4oa1w0").get_attribute("innerText"),
                 "location": jj.find_element(By.CLASS_NAME, "css-t4u72d.eu4oa1w0").get_attribute("innerText"),
-                "date": date
+                "description": description,
+                "date": date,
             })
-
-            # except NoSuchElementException:
-            #     salary_list.append(None)
-
-    #         # Click the job element to get the description
-    #         job_title.click()
-
-    #         # Help to load page so we can find and extract data
-    #         sleep(randint(3, 5))
-
-    #         try:
-    #             job_description_list.append(driver.find_element(By.ID,"jobDescriptionText").text)
-
-    #         except:
-
-    #             job_description_list.append(None)
 
     driver.quit()
 

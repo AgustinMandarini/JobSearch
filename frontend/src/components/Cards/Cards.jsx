@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
+import Accordion from "react-bootstrap/Accordion";
 
 const URL = process.env.REACT_APP_API_SERVER_URL;
 
@@ -38,7 +39,14 @@ export default function Cards() {
           {jobs.map((job, i) => (
             <tr key={job.id}>
               <td>{i + 1}.</td>
-              <td>{job.title}</td>
+              <td>
+                <Accordion>
+                  <Accordion.Item eventKey={i}>
+                    <Accordion.Header>{job.title}</Accordion.Header>
+                    <Accordion.Body>{job.description}</Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+              </td>
               <td>{job.company}</td>
               <td>{job.location}</td>
               <td>{job.date}</td>

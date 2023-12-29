@@ -7,21 +7,24 @@ from celery import shared_task
 def update_jobs_schedule():
 
     print("Scrapping jobs...")
-    newIndeedJobs = find_jobs("developer", "remote")
-    print("Jobs scrapped successfully!")
+    try:
+        newIndeedJobs = find_jobs("developer", "remote")
+        print("Jobs scrapped successfully!")
 
-    # First we delete all current jobs
-    delete_all_indeed_jobs = IndeedJobs.objects.all()
-    delete_all_indeed_jobs.delete()
+        # First we delete all current jobs
+        delete_all_indeed_jobs = IndeedJobs.objects.all()
+        delete_all_indeed_jobs.delete()
 
-    # Then we create new registries
-    for indeedJob in newIndeedJobs:
+        # Then we create new registries
+        for indeedJob in newIndeedJobs:
 
-        indeed_jobs = IndeedJobs(**indeedJob)
+            indeed_jobs = IndeedJobs(**indeedJob)
 
-        # Save the indeed_jobs objects to the database
-        indeed_jobs.save()
+            # Save the indeed_jobs objects to the database
+            indeed_jobs.save()
 
-    print("Jobs updated successfully!")
+        print("Jobs updated successfully!")
 
-    return "Indeed Jobs Updated!"
+        return "Indeed Jobs Updated!"
+    except Exception as e:
+        print(e)
