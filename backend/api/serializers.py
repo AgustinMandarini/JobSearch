@@ -6,4 +6,4 @@ class JobsSerializer(serializers.ModelSerializer):
     class Meta:
         model = IndeedJobs
         fields = ('id', 'title', 'job_url', 'job_id',
-                  'company', 'location', 'date', 'salary')
+                  'company', 'location', 'description', 'date', 'salary')
